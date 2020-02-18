@@ -1,0 +1,90 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {},
+  "resources": [
+    {
+      "name": "storagedssdsdfs",
+      "apiVersion": "2019-06-01",
+      "type": "Microsoft.storage/storageAccounts",
+      "location": "west europe",
+      "kind": "StorageV2",
+      "properties": {
+
+      },
+      "sku": {
+        "name": "standard_LRS"
+      }
+    },
+    {
+      "name": "myfunctionappplan1",
+      "apiVersion": "2019-08-01",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "west europe",
+      "dependson": [
+        "[resourceid('Microsoft.storage/storageAccounts', 'storagedssdsdfs')]"
+      ],
+      "properties": {
+        "name": "myfunctionappplan1",
+        "computeMode": "Dynamic"
+      },
+      "sku": {
+        "name": "Y1",
+        "capacity": 0,
+        "family": "Y",
+        "tier": "Dynamic",
+        "size": "Y1"
+
+      }
+    },
+    {
+      "name": "myfunctionappapp1",
+      "apiVersion": "2019-08-01",
+      "type": "Microsoft.Web/sites",
+      "location": "west europe",
+      "kind": "functionapp",
+      "dependson": [
+        "[resourceId('Microsoft.Web/serverfarms', 'myfunctionappplan1')]"
+
+      ],
+      "properties": {
+        "name": "myfunctionappapp1",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "dotnet"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~3"
+            },
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', 'storagedssdsdfs', ';AccountKey=', listkeys('storagedssdsdfs', '2019-06-01').keys[0].value )]"
+            },
+            {
+              "name": "AzureWebJobsDashboard",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', 'storagedssdsdfs', ';AccountKey=', listkeys('storagedssdsdfs', '2019-06-01').keys[0].value )]"
+            },
+            {
+              "name": "ritesh",
+              "value": "modi"
+            }
+          ],
+          "connectionStrings": [
+            {
+              "name": "cosmosdbconnectionstring",
+              "connectionString": "sdfswwefsdvsv"
+            }
+          ]
+        },
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'myfunctionappplan1')]"
+      }
+    }
+  ],
+  "outputs": {
+
+  }
+}
