@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageaccountname": {
+      "type": "string"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "[parameters('storageaccountname')]",
+      "apiVersion": "2019-04-01",
+      "type": "microsoft.storage/storageAccounts",
+      "location": "South India",
+      "kind": "storageV2",
+      ""
+
+    }
+  ],
+  "outputs": {}
+}
